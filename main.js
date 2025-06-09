@@ -186,7 +186,7 @@ function createPlanet(size, textureFile, position, rotationSpeed, orbitSpeed, na
             orbit.rotation.x = Math.PI / 2;
             planetGroup.add(orbit); // Add orbit to planetGroup instead of scene
         } else { // Add Saturn's rings
-            const saturnRing = createRing(size * 1.5, size * 2.5, '/textures/saturn_ring.png');
+            const saturnRing = createRing(size * 0, size * 0, '/textures/saturn_ring.png');
             planetGroup.add(saturnRing);
         }
     }
