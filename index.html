@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Solar System Simulation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="info">
+        <h1>Solar System Simulation</h1>
+        <div id="controls-info">
+            <p>Controls:</p>
+            <ul>
+                <li>Drag: Rotate camera</li>
+                <li>Two-finger drag / Right-click drag: Pan camera</li>
+                <li>Pinch / Scroll: Zoom in/out</li>
+                <li>Space: Reset camera</li>
+            </ul>
+        </div>
+        <button id="toggle-animation">Pause Animation</button>
+    </div>
+    <canvas id="solar-system"></canvas>
+    <script type="module" src="/main.js"></script>
+</body>
+<footer>
+    <p>&copy; 2024 Made by Jaspreet Singh</p>
+</footer>
+<div id="planet-tooltip" style="position: absolute; display: none; background: rgba(0, 0, 0, 0.7); color: white; padding: 5px 10px; border-radius: 3px; font-size: 12px; pointer-events: none; z-index: 10;"></div>
+</html> 
