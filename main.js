@@ -180,7 +180,7 @@ function createPlanet(size, textureFile, position, rotationSpeed, orbitSpeed, na
                 color: 0x444444,
                 side: THREE.DoubleSide,
                 transparent: true,
-                opacity: 0.3
+                opacity: 1
             });
             const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
             orbit.rotation.x = Math.PI / 2;
