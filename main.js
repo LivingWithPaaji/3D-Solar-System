@@ -67,16 +67,29 @@ function createStarfield() {
 
 // Ring creation helper for Saturn
 function createRing(innerRadius, outerRadius, textureFile) {
-    const geometry = new THREE.RingGeometry(innerRadius, outerRadius, 64);
-    const texture = new THREE.TextureLoader().load(textureFile);
-    const material = new THREE.MeshBasicMaterial({
+    const geometry = new THREE.RingGeometry(innerRadius, outerRadius, 128);
+    const texture = new THREE.TextureLoader().load(textureFile,
+        // onLoad callback
+        (texture) => {
+            console.log('Successfully loaded Saturn ring texture');
+        },
+        // onProgress callback
+        undefined,
+        // onError callback
+        (error) => {
+            console.error('Error loading Saturn ring texture:', error);
+        }
+    );
+    const material = new THREE.MeshStandardMaterial({
         map: texture,
         side: THREE.DoubleSide,
         transparent: true,
-        alphaMap: texture, // Use the same texture for alpha to create transparency
+        opacity: 0.8,
+        alphaMap: texture,
+        roughness: 0.5,
+        metalness: 0.1
     });
     const ring = new THREE.Mesh(geometry, material);
-    ring.rotation.x = Math.PI / 2; // Rotate to align with the planet's orbit
     return ring;
 }
 
@@ -186,7 +199,11 @@ function createPlanet(size, textureFile, position, rotationSpeed, orbitSpeed, na
             orbit.rotation.x = Math.PI / 2;
             planetGroup.add(orbit); // Add orbit to planetGroup instead of scene
         } else { // Add Saturn's rings
-            const saturnRing = createRing(size * 0, size * 0, '/textures/saturn_ring.png');
+            const saturnRing = createRing(size * 1.5, size * 2.5, '/textures/saturn_ring.png');
+            // Position the ring at Saturn's position (not orbit position)
+            saturnRing.position.set(0, 0, 0);
+            // Set the rotation to match Saturn's tilt
+            saturnRing.rotation.x = THREE.MathUtils.degToRad(26.7);
             planetGroup.add(saturnRing);
         }
     }
