@@ -185,26 +185,26 @@ function createPlanet(size, textureFile, position, rotationSpeed, orbitSpeed, na
 
     // Handle orbital lines and Saturn's rings for non-Sun planets
     if (position !== 0) { // Only add orbits/rings for planets that actually orbit
-        if (textureFile !== '/textures/saturn.jpg') {
-            // Add orbit line for all planets except the Sun and Saturn
-            const orbitRadius = position;
-            const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.05, orbitRadius + 0.05, 128);
-            const orbitMaterial = new THREE.MeshBasicMaterial({
-                color: 0x444444,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 1
-            });
-            const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
-            orbit.rotation.x = Math.PI / 2;
-            planetGroup.add(orbit); // Add orbit to planetGroup instead of scene
-        } else { // Add Saturn's rings
+        // Add orbit line for all planets except the Sun
+        const orbitRadius = position;
+        const orbitGeometry = new THREE.RingGeometry(orbitRadius - 0.05, orbitRadius + 0.05, 128);
+        const orbitMaterial = new THREE.MeshBasicMaterial({
+            color: 0x444444,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 1
+        });
+        const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+        orbit.rotation.x = Math.PI / 2;
+        planetGroup.add(orbit);
+
+        // Add Saturn's rings if this is Saturn
+        if (name === 'Saturn') {
             const saturnRing = createRing(size * 1.5, size * 2.5, '/textures/saturn_ring.png');
-            // Position the ring at Saturn's position (not orbit position)
-            saturnRing.position.set(0, 0, 0);
+            // Add the ring to the planet mesh, not the group
+            planet.add(saturnRing);
             // Set the rotation to match Saturn's tilt
             saturnRing.rotation.x = THREE.MathUtils.degToRad(26.7);
-            planetGroup.add(saturnRing);
         }
     }
 
