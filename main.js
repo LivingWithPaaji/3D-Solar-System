@@ -26,6 +26,47 @@ controls.dampingFactor = 0.05;
 
 // Animation state
 let isAnimating = true;
+let speedMultiplier = 1.0; // Add speed multiplier
+
+// Create speed control panel
+const speedControlPanel = document.createElement('div');
+speedControlPanel.style.position = 'fixed';
+speedControlPanel.style.bottom = '20px';
+speedControlPanel.style.left = '20px';
+speedControlPanel.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+speedControlPanel.style.padding = '15px';
+speedControlPanel.style.borderRadius = '8px';
+speedControlPanel.style.color = 'white';
+speedControlPanel.style.fontFamily = 'Arial, sans-serif';
+speedControlPanel.style.zIndex = '1000';
+
+const speedLabel = document.createElement('div');
+speedLabel.textContent = 'Animation Speed';
+speedLabel.style.marginBottom = '10px';
+
+const speedSlider = document.createElement('input');
+speedSlider.type = 'range';
+speedSlider.min = '0';
+speedSlider.max = '5';
+speedSlider.step = '0.1';
+speedSlider.value = '1';
+speedSlider.style.width = '200px';
+
+const speedValue = document.createElement('div');
+speedValue.textContent = '1.0x';
+speedValue.style.marginTop = '5px';
+speedValue.style.textAlign = 'center';
+
+speedSlider.addEventListener('input', (e) => {
+    speedMultiplier = parseFloat(e.target.value);
+    speedValue.textContent = speedMultiplier.toFixed(1) + 'x';
+});
+
+speedControlPanel.appendChild(speedLabel);
+speedControlPanel.appendChild(speedSlider);
+speedControlPanel.appendChild(speedValue);
+document.body.appendChild(speedControlPanel);
+
 const toggleButton = document.getElementById('toggle-animation');
 toggleButton.addEventListener('click', () => {
     isAnimating = !isAnimating;
@@ -256,10 +297,10 @@ function animate() {
     if (isAnimating) {
         planets.forEach(planet => {
             if (planet.orbitSpeed > 0) {
-                planet.group.rotation.y += planet.orbitSpeed;
-                planet.mesh.rotation.y += planet.rotationSpeed;
+                planet.group.rotation.y += planet.orbitSpeed * speedMultiplier;
+                planet.mesh.rotation.y += planet.rotationSpeed * speedMultiplier;
             } else {
-                planet.mesh.rotation.y += planet.rotationSpeed;
+                planet.mesh.rotation.y += planet.rotationSpeed * speedMultiplier;
             }
         });
     }
